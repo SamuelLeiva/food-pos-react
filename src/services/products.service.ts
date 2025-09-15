@@ -1,11 +1,11 @@
 import axios from 'axios';
-import type { IProductResponse } from '../types/Product/IProductResponse';
+import type { IProductsResponse } from '../types/Product/IProductsResponse';
 
-const API_URL = 'http://localhost:5001/api/products';
+const API_URL = 'https://localhost:5001/api/products';
 
 export const getProducts = async (pageIndex: number, pageSize: number, search: string = '') => {
     try{
-        const response = await axios.get<IProductResponse>(
+        const response = await axios.get<IProductsResponse>(
             `${API_URL}?pageIndex=${pageIndex}&pageSize=${pageSize}&search=${search}`
         )
         return response.data;

@@ -1,6 +1,6 @@
 import type { IProduct } from "./IProduct";
 
-export interface IProductResponse {
+export interface IProductsResponse {
   search: string | null;
   pageIndex: number;
   pageSize: number;
