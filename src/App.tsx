@@ -1,15 +1,17 @@
-import { MainLayout } from './layouts/MainLayout'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { OrderMenuPanel } from "./features/Order/OrderMenuPanel";
+import { MainLayout } from "./layouts/MainLayout";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <MainLayout>
-      {/* El contenido de tu página irá aquí */}
-      <h1 className="text-2xl font-bold text-gray-800">Contenido de la Página</h1>
-      <p className="text-gray-600">
-        Este es el área donde irán los paneles del menú y la orden.
-      </p>
-    </MainLayout>
-  )
+    <QueryClientProvider client={queryClient}>
+      <MainLayout>
+        <OrderMenuPanel />
+      </MainLayout>
+    </QueryClientProvider>
+  );
 }
 
-export default App
+export default App;
