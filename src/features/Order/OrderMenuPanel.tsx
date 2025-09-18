@@ -12,6 +12,13 @@ import type { MenuItem } from '../../types/MenuItem';
 export const OrderMenuPanel = () => {
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
+  useEffect(() => {
+    // Se ejecuta cada vez que 'selectedCategory' cambia
+    setSearchTerm('');
+    setDebouncedSearchTerm('');
+  }, [selectedCategory]);
   
   // ✅ Query para las categorías
   const { 
@@ -30,6 +37,16 @@ export const OrderMenuPanel = () => {
     }
   }, [categories, selectedCategory]);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500); // Wait 500ms after the last keystroke
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
   // ✅ Query infinito para los productos, usando paginación y búsqueda
   const {
     data,
@@ -41,9 +58,9 @@ export const OrderMenuPanel = () => {
   } = useInfiniteQuery<PaginatedResponse<MenuItem>>({
     // ✅ La clave de la magia: el queryKey incluye la categoría y el término de búsqueda
     // Esto hace que React Query refetchee automáticamente cuando cambies de categoría o busques
-    queryKey: ['menuItems', selectedCategory?.id, searchTerm],
+    queryKey: ['menuItems', selectedCategory?.id, debouncedSearchTerm],
     queryFn: ({ pageParam = 1 }) => 
-      fetchMenuItemsByCategory(selectedCategory?.id as number, pageParam as number | undefined, 5, searchTerm),
+      fetchMenuItemsByCategory(selectedCategory?.id as number, pageParam as number | undefined, 5, debouncedSearchTerm),
     enabled: !!selectedCategory, // Solo ejecuta el query si hay una categoría seleccionada
     getNextPageParam: (lastPage) => {
       if (lastPage.hasNextPage) {
