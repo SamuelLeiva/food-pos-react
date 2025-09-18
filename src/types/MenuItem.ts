@@ -1,13 +1,11 @@
-export interface MenuItem {
-  id: string;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  imageUrl: string;
-  category: string;
-}
+import type { ICategory } from "./Category/ICategory";
 
-export interface OrderItem extends MenuItem {
-  quantity: number;
-  note?: string;
+export interface MenuItem {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  isActive: boolean;
+  category: ICategory;
 }
