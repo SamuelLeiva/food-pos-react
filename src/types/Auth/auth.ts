@@ -1,5 +1,3 @@
-// src/types/auth.ts
-
 // Tipos para los datos de entrada
 export type RegisterDto = {
   names: string;
