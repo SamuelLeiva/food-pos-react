@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { PiList } from 'react-icons/pi'; // Ícono para el menú hamburguesa
+import { Navbar } from './Navbar';
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -35,7 +36,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       </div>
 
       <main className="flex-1 p-6 overflow-y-auto">
-        {children}
+        <Navbar />
+        <div className="p-6">
+          {children}
+        </div>
       </main>
     </div>
   );
