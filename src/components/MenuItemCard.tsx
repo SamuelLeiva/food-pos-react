@@ -1,5 +1,5 @@
 import React from 'react';
-import type { MenuItem } from '../../../types/MenuItem';
+import type { MenuItem } from '../features/menu/types/MenuItem';
 
 type Props = {
   item: MenuItem;
@@ -25,9 +25,9 @@ export const MenuItemCard: React.FC<Props> = ({ item, onSelect }) => {
           <span className="text-lg font-bold text-blue-600">
             ${item.price.toFixed(2)}
           </span>
-          {item.originalPrice && (
+          {item.price && (
             <span className="text-sm text-gray-400 line-through">
-              ${item.originalPrice.toFixed(2)}
+              ${item.price.toFixed(2)}
             </span>
           )}
         </div>

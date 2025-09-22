@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Modal } from '../components/Modal';
-import { LoginForm } from '../features/Auth/LoginForm';
-import { RegisterForm } from '../features/Auth/RegisterForm';
-import { useAuth } from '../hooks/useAuth';
+import { useState } from 'react';
+import { Modal } from './ui/Modal';
+import { LoginForm } from '../features/auth/components/LoginForm';
+import { RegisterForm } from '../features/auth/components/RegisterForm';
+import { useAuth } from '../contexts/auth/useAuth';
 
 export const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

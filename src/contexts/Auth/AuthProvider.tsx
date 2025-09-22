@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
-import type { LoginDto, RegisterDto, UserDataDto } from "../../types/Auth/auth";
-import AuthService from "../../services/authService";
+import type { LoginDto, RegisterDto, UserDataDto } from "../../features/auth/types/auth";
+import AuthService from "../../features/auth/services/authService";
 import { tokenManager } from "../../utils/tokenManager";
 import { AuthContext } from "./AuthContext";
 

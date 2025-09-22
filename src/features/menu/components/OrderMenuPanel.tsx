@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { PiMagnifyingGlass, PiLayout } from 'react-icons/pi';
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
-import { MenuItemCard } from './components/MenuItemCard';
-import { CategoryTabs } from './components/CategoryTabs';
-import { fetchCategories } from '../../services/categoryService';
-import { fetchMenuItemsByCategory } from '../../services/menuService';
-import type { ICategory } from '../../types/Category/ICategory';
-import type { PaginatedResponse } from '../../types/PaginatedResponse';
-import type { MenuItem } from '../../types/MenuItem';
+import { MenuItemCard } from '../../../components/MenuItemCard';
+import { CategoryTabs } from './CategoryTabs';
+import { fetchCategories } from '../services/categoryService';
+import { fetchMenuItemsByCategory } from '../services/menuService';
+import type { ICategory } from '../../../types/ICategory';
+import type { MenuItem } from '../types/MenuItem';
+import type { PaginatedResponse } from '../types/PaginatedResponse';
 
 export const OrderMenuPanel = () => {
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null);

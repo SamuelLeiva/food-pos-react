@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import type { LoginDto, RegisterDto, UserDataDto } from '../../types/Auth/auth';
+import type { LoginDto, RegisterDto, UserDataDto } from '../../features/auth/types/auth';
 
 // Define el tipo de dato para el contexto de autenticación
 export type AuthContextType = {

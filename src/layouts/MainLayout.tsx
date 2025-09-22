@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { PiList } from 'react-icons/pi'; // Ícono para el menú hamburguesa
-import { Navbar } from './Navbar';
+import { Navbar } from '../components/Navbar';
 
 type MainLayoutProps = {
   children: React.ReactNode;

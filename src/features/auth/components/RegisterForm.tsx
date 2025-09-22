@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import type { RegisterDto } from '../../types/Auth/auth';
-import { useAuth } from '../../hooks/useAuth';
+import type { RegisterDto } from '../types/auth';
+import { useAuth } from '../../../contexts/auth/useAuth';
 
 type RegisterFormProps = {
   onSwitchToLogin: () => void;

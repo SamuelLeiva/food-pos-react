@@ -1,4 +1,4 @@
-import type { ICategory } from "./Category/ICategory";
+import type { ICategory } from "../../../types/ICategory";
 
 export interface MenuItem {
   id: number;
