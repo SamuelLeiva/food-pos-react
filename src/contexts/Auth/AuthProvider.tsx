@@ -4,12 +4,7 @@ import AuthService from "../../features/auth/services/authService";
 import { tokenManager } from "../../utils/tokenManager";
 import { AuthContext } from "./AuthContext";
 
-
-type AuthProviderProps = {
-  children: ReactNode;
-};
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   const [user, setUser] = useState<UserDataDto | null>(null);
   const isAuthenticated = !!user;
 
