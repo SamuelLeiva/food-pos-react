@@ -1,35 +1,52 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import type { LoginDto } from '../../types/Auth/auth';
+import { useAuth } from '../../hooks/useAuth';
 
 type LoginFormProps = {
   onSwitchToRegister: () => void;
+  onClose: () => void; // ✅ Prop para cerrar el modal
 };
 
-export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister, onClose }) => {
+  const [formData, setFormData] = useState<LoginDto>({ userName: '', password: '' });
+  const [error, setError] = useState<string | null>(null);
+  const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login data:', { email, password });
-    // Aquí iría la lógica para llamar al servicio de login
+    setError(null);
+    try {
+      await login(formData);
+      onClose(); // ✅ Cierra el modal si el login es exitoso
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      setError('Credenciales inválidas. Por favor, inténtelo de nuevo.');
+    }
   };
 
   return (
     <div className="text-center">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Log In</h2>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          name="userName"
+          placeholder="Username"
+          value={formData.userName}
+          onChange={handleChange}
           className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="password"
+          name="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
           className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button

@@ -2,7 +2,7 @@ import axios from "axios";
 import { tokenManager } from "../utils/tokenManager";
 import type { LoginDto, RefreshTokenResponse, RegisterDto, UserDataDto } from "../types/Auth/auth";
 
-const API_URL = 'https://tu-api.com/api/account/'; // Reemplaza con la URL de tu backend
+const API_URL = 'https://api20250917102933-bch7ehdme6d5geft.canadacentral-01.azurewebsites.net/api/users'; // Reemplaza con la URL de tu backend
 
 // Instancia de Axios para manejar intercepciones y reintentos
 const apiClient: Axios.AxiosInstance = axios.create({
@@ -64,7 +64,7 @@ const AuthService = {
   },
 
   login: (data: LoginDto) => {
-    return apiClient.post<UserDataDto>('login', data);
+    return apiClient.post<UserDataDto>('token', data);
   },
 
   logout: () => {
