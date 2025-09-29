@@ -1,9 +1,10 @@
-const API_BASE_URL =
-  "https://api20250917102933-bch7ehdme6d5geft.canadacentral-01.azurewebsites.net/api/categories";
+import { CATEGORIES_ROUTES_URL } from "../../../constants/apiRoutes";
+import type { ApiResponse } from "../../../types/Responses";
+import type { Category } from "../types/Category";
 
 export const fetchCategories = async () => {
-  const response = await fetch(API_BASE_URL);
-  // deestructuramos data del response porque data es una propiedad del objeto que devuelve la API
-  const { data } = await response.json();
-  return data;
+  const response  = await fetch(CATEGORIES_ROUTES_URL);
+  const fullResponse: ApiResponse<Category[]> = await response.json();
+  const categories = fullResponse.data ?? []
+  return categories;
 };

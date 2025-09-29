@@ -17,8 +17,7 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
 
   const login = async (data: LoginDto) => {
     try {
-      const response = await AuthService.login(data);
-      const userData = response.data;
+      const userData: UserDataDto = await AuthService.login(data);
 
       // Almacenar el token y la información del usuario
       tokenManager.setAccessToken(userData.token);
@@ -34,10 +33,7 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
 
   const register = async (data: RegisterDto) => {
     try {
-      const response = await AuthService.register(data);
-      // Al registrar, el backend puede devolver el token directamente o requerir un login posterior
-      // Asumiendo que el backend te pide loguearte luego
-      console.log("Registration successful:", response.data);
+      await AuthService.register(data)
     } catch (error) {
       console.error("Registration failed:", error);
       throw error;

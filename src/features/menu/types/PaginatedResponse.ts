@@ -1,5 +1,5 @@
 export interface PaginatedResponse<T> {
-    search: null | number;
+    search: null | string;
     pageIndex: number;
     pageSize: number;
     total: number;

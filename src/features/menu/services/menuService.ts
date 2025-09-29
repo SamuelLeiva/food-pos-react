@@ -1,8 +1,7 @@
+import { PRODUCTS_ROUTES_URL } from "../../../constants/apiRoutes";
+import type { ApiResponse } from "../../../types/Responses";
 import type { MenuItem } from "../types/MenuItem";
 import type { PaginatedResponse } from "../types/PaginatedResponse";
-
-const API_BASE_URL =
-  "https://api20250917102933-bch7ehdme6d5geft.canadacentral-01.azurewebsites.net/api/products/category"; // Reemplaza con la URL de tu backend
 
 export const fetchMenuItemsByCategory = async (
   categoryId: number,
@@ -10,8 +9,24 @@ export const fetchMenuItemsByCategory = async (
   pageSize: number = 5,
   search: string = " "
 ): Promise<PaginatedResponse<MenuItem>> => {
-  // Simula la llamada a la API con la URL de la imagen
-  const response = await fetch(`${API_BASE_URL}/${categoryId}?pageIndex=${pageIndex}&pageSize=${pageSize}&search=${search}`);
-  const data = await response.json();
-  return data;
+  const response = await fetch(`${PRODUCTS_ROUTES_URL}/category/${categoryId}?pageIndex=${pageIndex}&pageSize=${pageSize}&search=${search}`);
+
+  const fullResponse: ApiResponse<PaginatedResponse<MenuItem>>= await response.json();
+
+  if (!fullResponse.data) {
+        // Devuelve una PaginatedResponse con registros vacíos como fallback
+        return {
+            search: search,
+            pageIndex: 1,
+            pageSize: pageSize,
+            total: 0,
+            registers: [],
+            totalPages: 0,
+            hasPreviousPage: false,
+            hasNextPage: false,
+        };
+    }
+  
+  // ✅ CAMBIO CLAVE: Devolver solo la propiedad 'data' que contiene la PaginatedResponse
+  return fullResponse.data;
 };

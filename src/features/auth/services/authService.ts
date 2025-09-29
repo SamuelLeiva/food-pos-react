@@ -1,14 +1,19 @@
-import axios from "axios";
+import axios, { type AxiosInstance, type AxiosResponse } from "axios";
 import { tokenManager } from "../../../utils/tokenManager";
-import type { LoginDto, RefreshTokenResponse, RegisterDto, UserDataDto } from "../types/auth";
-
-const API_URL = 'https://api20250917102933-bch7ehdme6d5geft.canadacentral-01.azurewebsites.net/api/users'; // Reemplaza con la URL de tu backend
+import type {
+  LoginDto,
+  RefreshTokenResponse,
+  RegisterDto,
+  UserDataDto,
+} from "../types/auth";
+import type { ApiResponse } from "../../../types/Responses";
+import { AUTH_ROUTES_URL } from "../../../constants/apiRoutes";
 
 // Instancia de Axios para manejar intercepciones y reintentos
-const apiClient: Axios.AxiosInstance = axios.create({
-  baseURL: API_URL,
+const apiClient: AxiosInstance = axios.create({
+  baseURL: AUTH_ROUTES_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -17,7 +22,7 @@ apiClient.interceptors.request.use(
   (config) => {
     const token = tokenManager.getAccessToken();
     if (token) {
-      config.headers!['Authorization'] = `Bearer ${token}`;
+      config.headers!["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
@@ -39,7 +44,10 @@ apiClient.interceptors.response.use(
       const refreshToken = tokenManager.getRefreshToken();
       if (refreshToken) {
         try {
-          const res = await apiClient.post<RefreshTokenResponse>('refresh-token', { refreshToken });
+          const res = await apiClient.post<RefreshTokenResponse>(
+            "refresh-token",
+            { refreshToken }
+          );
           tokenManager.setAccessToken(res.data.token);
           tokenManager.setRefreshToken(res.data.refreshToken);
           // Vuelve a intentar la solicitud original con el nuevo token
@@ -49,7 +57,7 @@ apiClient.interceptors.response.use(
           tokenManager.clearTokens();
           // Redirige al usuario a la página de login o emite un evento
           // Aquí podrías usar una librería como 'history' o un contexto de React
-          window.location.href = '/login'; 
+          window.location.href = "/login";
           return Promise.reject(err);
         }
       }
@@ -59,27 +67,62 @@ apiClient.interceptors.response.use(
 );
 
 const AuthService = {
-  register: (data: RegisterDto) => {
-    return apiClient.post('register', data);
-  },
+  register: async (data: RegisterDto): Promise<void> => {
+    const response: AxiosResponse<ApiResponse<unknown>> =
+      await apiClient.post("register", data);
 
-  login: (data: LoginDto) => {
-    return apiClient.post<UserDataDto>('token', data);
+    const fullResponse = response.data;
+
+    if (fullResponse.statusCode!==201) {
+      throw new Error(
+        fullResponse.message || "Registro fallido."
+      );
+    }
+  },
+  login: async (data: LoginDto): Promise<UserDataDto> => {
+    // La respuesta de Axios contiene la estructura ApiResponse<UserDataDto> en su propiedad 'data'
+    const response: AxiosResponse<ApiResponse<UserDataDto>> =
+      await apiClient.post("token", data);
+
+    const fullResponse = response.data;
+
+    // 1. Verificar si la data útil existe
+    if (!fullResponse.data) {
+      // Lanzamos un error si la estructura es inválida
+      throw new Error(
+        fullResponse.message ||
+          "Login exitoso, pero datos de usuario no recibidos."
+      );
+    }
+
+    // 2. Devolvemos solo la data útil (UserDataDto)
+    return fullResponse.data;
   },
 
   logout: () => {
     const refreshToken = tokenManager.getRefreshToken();
     if (refreshToken) {
       // Envía el token de actualización para revocarlo en el servidor
-      return apiClient.post('logout', { refreshToken });
+      return apiClient.post("logout", { refreshToken });
     }
     return Promise.resolve(); // Resuelve si no hay token que enviar
   },
 
   // Método para manejar la lógica de actualización del token manualmente si es necesario
-  refreshToken: (token: string) => {
-    return apiClient.post<RefreshTokenResponse>('refresh-token', { refreshToken: token });
-  }
+  refreshToken: async (token: string): Promise<RefreshTokenResponse> => {
+    const response: AxiosResponse<ApiResponse<RefreshTokenResponse>> =
+      await apiClient.post("refresh-token", { refreshToken: token });
+
+    const fullResponse = response.data;
+
+    if (!fullResponse.data) {
+      throw new Error(
+        fullResponse.message ||
+          "Fallo al refrescar el token o datos no recibidos."
+      );
+    }
+    return fullResponse.data;
+  },
 };
 
 export default AuthService;

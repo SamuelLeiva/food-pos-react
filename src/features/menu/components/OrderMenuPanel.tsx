@@ -30,7 +30,6 @@ export const OrderMenuPanel = () => {
     queryFn: fetchCategories,
   });
 
-  // ✅ Sincroniza la primera categoría al cargar
   useEffect(() => {
     if (categories && categories.length > 0 && selectedCategory === null) {
       setSelectedCategory(categories[0]);
@@ -68,8 +67,7 @@ export const OrderMenuPanel = () => {
       }
       return undefined;
     },
-    // ✅ Configura para que las nuevas búsquedas no se unan a las páginas anteriores
-    initialPageParam: 1, // Added for React Query v5
+    initialPageParam: 1,
   });
   
   // ✅ Obtén una lista plana de todos los productos
@@ -106,10 +104,10 @@ export const OrderMenuPanel = () => {
       </div>
 
       <CategoryTabs
-        categories={categories!.map(c => c.name)}
+        categories={categories?.map(c => c.name) ?? []}
         selectedCategory={selectedCategory?.name as string}
         onSelectCategory={(categoryName) => {
-          const cat = categories!.find(c => c.name === categoryName);
+          const cat = categories?.find(c => c.name === categoryName);
           if (cat) setSelectedCategory(cat);
         }}
       />
@@ -127,7 +125,7 @@ export const OrderMenuPanel = () => {
         <>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {allMenuItems.map((item) => (
-              <MenuItemCard key={item.id} item={item} onSelect={() => {}} />
+              <MenuItemCard key={item.id} item={item} />
             ))}
           </div>
 
