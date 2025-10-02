@@ -6,7 +6,7 @@ import type {
   CreateOrderItemDto,
 } from "../features/menu/types/Order";
 import OrderService from "../features/menu/services/orderService";
-import { useAuth } from "../contexts/auth";
+import { useAuth } from "../contexts/auth/useAuth";
 
 export const CartPanel = () => {
   const { cartItems, updateQuantity, removeItem, subtotal, clearCart } =

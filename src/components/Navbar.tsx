@@ -4,7 +4,7 @@ import { LoginForm } from '../features/auth/components/LoginForm';
 import { RegisterForm } from '../features/auth/components/RegisterForm';
 // 💡 Importar el nuevo componente de contenido de órdenes
 import { OrderHistoryContent } from '../features/order/components/OrderHistoryContent'; 
-import { useAuth } from '../contexts/auth';
+import { useAuth } from '../contexts/auth/useAuth';
 
 // ✅ Definimos el nuevo tipo para incluir el historial de órdenes
 type ModalType = 'login' | 'register' | 'orders';
