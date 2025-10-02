@@ -5,12 +5,12 @@ import { MenuItemCard } from '../../../components/MenuItemCard';
 import { CategoryTabs } from './CategoryTabs';
 import { fetchCategories } from '../services/categoryService';
 import { fetchMenuItemsByCategory } from '../services/menuService';
-import type { ICategory } from '../../../types/ICategory';
 import type { MenuItem } from '../types/MenuItem';
 import type { PaginatedResponse } from '../types/PaginatedResponse';
+import type { Category } from '../types/Category';
 
 export const OrderMenuPanel = () => {
-  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
@@ -25,7 +25,7 @@ export const OrderMenuPanel = () => {
     data: categories, 
     isLoading: isCategoriesLoading, 
     isError: isCategoriesError 
-  } = useQuery<ICategory[]>({
+  } = useQuery<Category[]>({
     queryKey: ['categories'],
     queryFn: fetchCategories,
   });

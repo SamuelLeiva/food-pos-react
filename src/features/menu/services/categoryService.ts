@@ -1,10 +1,10 @@
-import { CATEGORIES_ROUTES_URL } from "../../../constants/apiRoutes";
+import type { AxiosResponse } from "axios";
 import type { ApiResponse } from "../../../types/Responses";
+import apiClient from "../../../utils/apiClient";
 import type { Category } from "../types/Category";
 
 export const fetchCategories = async () => {
-  const response  = await fetch(CATEGORIES_ROUTES_URL);
-  const fullResponse: ApiResponse<Category[]> = await response.json();
-  const categories = fullResponse.data ?? []
-  return categories;
+  const response: AxiosResponse<ApiResponse<Category[]>>  = await apiClient.get('categories');
+  const fullResponse = response.data
+  return fullResponse.data;
 };

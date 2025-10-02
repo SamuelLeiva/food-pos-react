@@ -5,7 +5,7 @@ export type CreateOrderItemDto = {
 
 export type CreateOrderDto = {
   orderItems: CreateOrderItemDto[];
-  receiptEmail: string;
+  receiptEmail: string | undefined;
   status: string;
 };
 
