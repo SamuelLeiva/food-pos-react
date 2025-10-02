@@ -24,5 +24,5 @@ export type Order = {
   paymentIntentId: string;
   stripeCustomerId: string;
   receiptEmail: string;
-  orderItems: OrderItem
+  orderItems: OrderItem[]
 };

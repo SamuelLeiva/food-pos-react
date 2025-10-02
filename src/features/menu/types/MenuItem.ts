@@ -1,4 +1,4 @@
-import type { ICategory } from "../../../types/ICategory";
+import type { Category } from "./Category";
 
 export interface MenuItem {
   id: number;
@@ -7,5 +7,5 @@ export interface MenuItem {
   price: number;
   imageUrl: string;
   isActive: boolean;
-  category: ICategory;
+  category: Category;
 }

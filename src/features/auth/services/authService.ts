@@ -12,7 +12,7 @@ import apiClient from "../../../utils/apiClient";
 const AuthService = {
   register: async (data: RegisterDto): Promise<void> => {
     const response: AxiosResponse<ApiResponse<unknown>> =
-      await apiClient.post("register", data);
+      await apiClient.post("users/register", data);
 
     const fullResponse = response.data;
 
@@ -25,7 +25,7 @@ const AuthService = {
   login: async (data: LoginDto): Promise<UserDataDto> => {
     // La respuesta de Axios contiene la estructura ApiResponse<UserDataDto> en su propiedad 'data'
     const response: AxiosResponse<ApiResponse<UserDataDto>> =
-      await apiClient.post("token", data);
+      await apiClient.post("users/token", data);
 
     const fullResponse = response.data;
 
@@ -46,7 +46,7 @@ const AuthService = {
     const refreshToken = tokenManager.getRefreshToken();
     if (refreshToken) {
       // Envía el token de actualización para revocarlo en el servidor
-      return apiClient.post("logout", { refreshToken });
+      return apiClient.post("users/logout", { refreshToken });
     }
     return Promise.resolve(); // Resuelve si no hay token que enviar
   },
@@ -54,7 +54,7 @@ const AuthService = {
   // Método para manejar la lógica de actualización del token manualmente si es necesario
   refreshToken: async (token: string): Promise<RefreshTokenResponse> => {
     const response: AxiosResponse<ApiResponse<RefreshTokenResponse>> =
-      await apiClient.post("refresh-token", { refreshToken: token });
+      await apiClient.post("users/refresh-token", { refreshToken: token });
 
     const fullResponse = response.data;
 
