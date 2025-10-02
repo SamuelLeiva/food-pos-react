@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { LoginDto } from '../types/auth';
-import { useAuth } from '../../../contexts/auth/useAuth';
+import { useAuth } from '../../../contexts/auth/useAuth.ts';
 
 type LoginFormProps = {
   onSwitchToRegister: () => void;

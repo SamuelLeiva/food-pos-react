@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import type { LoginDto, RegisterDto, UserDataDto } from "../../features/auth/types/auth";
 import AuthService from "../../features/auth/services/authService";
 import { tokenManager } from "../../utils/tokenManager";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "./AuthContext.ts";
 
 export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   const [user, setUser] = useState<UserDataDto | null>(null);
